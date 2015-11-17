@@ -1,4 +1,4 @@
-import goody
+#import goody
 
 
 def read_fa(file : open) -> {str:{str:str}}:
@@ -21,9 +21,9 @@ if __name__ == '__main__':
               
     # For running batch self-tests
     print()
-    import driver
-    driver.default_file_name = "bsc3.txt"
+#    import driver
+#    driver.default_file_name = "bsc3.txt"
 #     driver.default_show_traceback = True
 #     driver.default_show_exception = True
 #     driver.default_show_exception_message = True
-    driver.driver()
+#    driver.driver()
