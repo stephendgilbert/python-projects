@@ -30,7 +30,11 @@ def remaining_candidates(vd : {str:int}) -> {str}:
     result = sorted(vd.items(), key=(lambda t : t[1]))  # sort by lowest count
     return {e[0] for e in result if e[1] != result[0][1]} #compared each to lowest count
 
-
+# Notice that the original handout for this program had an error
+# in the print line before the 'Vote count on ballot...' line.
+# The keys in the { } at the end of the line should appear in 
+# the same order that they appear in the list following them
+# This code is fixed.
 def run_election(vp_file : open) -> {str}:
     vp = read_voter_preferences(vp_file)
 
