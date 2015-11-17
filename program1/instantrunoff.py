@@ -33,27 +33,32 @@ def remaining_candidates(vd : {str:int}) -> {str}:
 
 def run_election(vp_file : open) -> {str}:
     vp = read_voter_preferences(vp_file)
-    candidates = {c for group in vp.values() for c in group}
-#    print(candidates)
+
     print('\nVoter Preferences')
     print(dict_as_str(vp))
     ballot = 1
-    while len(vp) > 1:
-        print('Vote count on ballot #' + str(ballot) + ' with candidates (alphabetically) = ' + str(candidates))
-        print(dict_as_str(evaluate_ballot(vp, candidates)))
-        print('Vote count on ballot #' + str(ballot) + ' with candidates (numerically) = ' + str(candidates))
-        print(dict_as_str(evaluate_ballot(vp, candidates), key=(lambda t : t[1]), reverse=True))
-        vp = remaining_candidates(vp)
-    return set(vp[0] if len(vp) == 1 else set()) 
+    candidates = {c for possible in vp.values() for c in possible}
+    while len(candidates) > 1:
+        votes = evaluate_ballot(vp, candidates)
+        print('Vote count on ballot #' + str(ballot) + \
+              ' with candidates (alphabetically) = {' + \
+              ', '.join([x for x in sorted(votes)]) + '}')
+        print(dict_as_str(votes))
+        print('Vote count on ballot #' + str(ballot) + \
+              ' with candidates (numerically) = {' + \
+              ', '.join([x for x in sorted(votes,key=lambda x : votes[x],reverse=True)]) + '}')
+        print(dict_as_str(votes, key=lambda x : votes[x], reverse=True))
+        candidates = remaining_candidates(votes)
+    return candidates
     
 if __name__ == '__main__':
     # Write script here
-#     file = goody.safe_open('Enter file with voter preferences', 'r', 'Could not open file')
-#     winner = run_election(file)
-#     if winner == set():
-#         print("No winner")
-#     else:
-#         print("Winner is", winner)
+    file = goody.safe_open('Enter file with voter preferences', 'r', 'Could not open file')
+    winner = run_election(file)
+    if winner == set():
+        print("No winner")
+    else:
+        print("Winner is", winner)
     # For running batch self-tests
     print()
     import driver
